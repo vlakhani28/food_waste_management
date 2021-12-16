@@ -4,7 +4,7 @@ class RestaurantHomeField {
   static const createdTime = 'createdTime';
 }
 
-class RestaurantHome {
+class RestaurantDataHome {
   DateTime createdTime;
   String dishName;
   String id;
@@ -16,7 +16,7 @@ class RestaurantHome {
   String mealType;
   bool isDone;
 
-  RestaurantHome({
+  RestaurantDataHome({
     @required this.createdTime,
     @required this.dishName,
     @required this.quantity,

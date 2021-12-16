@@ -4,7 +4,7 @@ class NGOHomeField {
   static const createdTime = 'createdTime';
 }
 
-class NGOHome {
+class NGODataHome {
   DateTime createdTime;
   String id;
   String quantity;
@@ -13,7 +13,7 @@ class NGOHome {
   String mealType;
   bool isDone;
 
-  NGOHome({
+  NGODataHome({
     @required this.createdTime,
     @required this.quantity,
     @required this.veg,
