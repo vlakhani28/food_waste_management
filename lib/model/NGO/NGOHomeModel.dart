@@ -1,25 +1,38 @@
 import 'package:flutter/cupertino.dart';
-
-class NGOHomeField {
-  static const createdTime = 'createdTime';
-}
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NGODataHome {
-  DateTime createdTime;
-  String id;
-  String quantity;
-  String veg;
-  String pickUpDay;
-  String mealType;
-  bool isDone;
+  static const createdTime = "createdTime";
+  static const ID = "id";
+  static const QUANTITY = "quantity";
+  static const VEG = "veg";
+  static const pickUpDay = "pickUpDay";
+  static const mealType = "mealType";
+  static const isDone = "isDone";
 
-  NGODataHome({
-    @required this.createdTime,
-    @required this.quantity,
-    @required this.veg,
-    @required this.mealType,
-    @required this.pickUpDay,
-    this.id,
-    this.isDone = false,
-  });
+  String _createdTime;
+  String _id;
+  String _quantity;
+  String _veg;
+  String _pickUpDay;
+  String _mealType;
+  String _isDone;
+
+  String get createdtime => _createdTime;
+  String get id => _id;
+  String get quantity => _quantity;
+  String get veg => _veg;
+  String get pickupday => _pickUpDay;
+  String get mealtype => _mealType;
+  String get isdone => _isDone;
+
+  NGODataHome.fromSnapshot(DocumentSnapshot snapshot) {
+    _createdTime = snapshot[createdTime];
+    _id = snapshot[ID];
+    _quantity = snapshot[QUANTITY];
+    _veg = snapshot[VEG];
+    _pickUpDay = snapshot[pickUpDay];
+    _mealType = snapshot[mealType];
+    _isDone = snapshot[isDone];
+  }
 }

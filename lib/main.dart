@@ -5,16 +5,10 @@ import 'package:food_waste_management/providers/NGO/NGOLoginProvider.dart';
 import 'package:food_waste_management/providers/Restaurant/RestaurantLoginProvider.dart';
 import 'package:food_waste_management/screens/LoginScreen.dart';
 import 'package:food_waste_management/screens/NGO/NGOHome.dart';
-import 'package:food_waste_management/screens/Restaurant/RestaurantDonate.dart';
 import 'package:food_waste_management/screens/Restaurant/RestaurantHome.dart';
 import 'package:food_waste_management/screens/SplashScreen.dart';
 import 'package:food_waste_management/utilities/constants.dart';
 import 'package:provider/provider.dart';
-
-import 'model/NGO/NGOHomeModel.dart';
-import 'model/Restaurant/RestaurantHomeModel.dart';
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_waste_management/model/ContactModel.dart';
 import 'package:food_waste_management/model/Restaurant/RestaurantLoginModel.dart';
 import 'package:food_waste_management/services/Restaurant/RestaurantLoginServices.dart';
 import 'package:food_waste_management/widgets/CustomSnackBar.dart';
@@ -13,7 +12,7 @@ class RestaurantProvider with ChangeNotifier {
   Status _status = Status.Uninitialized;
   UserServices _userServices = UserServices();
   RestaurantModel _userModel;
-  List<ContactModel> contacts = [];
+  List<RestaurantModel> posts = [];
 
   // getter
   RestaurantModel get userModel => _userModel;

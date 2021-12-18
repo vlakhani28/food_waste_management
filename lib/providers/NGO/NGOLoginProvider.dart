@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_waste_management/model/ContactModel.dart';
+import 'package:food_waste_management/model/NGO/NGOHomeModel.dart';
 import 'package:food_waste_management/model/NGO/NGOLoginModel.dart';
 import 'package:food_waste_management/services/NGO/NGOLoginServices.dart';
 import 'package:food_waste_management/widgets/CustomSnackBar.dart';
@@ -13,7 +13,7 @@ class NGOProvider with ChangeNotifier {
   StatusNGO _status = StatusNGO.Uninitialized;
   NGOServices _userServices = NGOServices();
   NGOModel _userModel;
-  List<ContactModel> contacts = [];
+  List<NGODataHome> posts = [];
 
   // getter
   NGOModel get userModel => _userModel;
@@ -90,8 +90,8 @@ class NGOProvider with ChangeNotifier {
     return Future.delayed(Duration.zero);
   }
 
-  // getContacts() async {
-  //   contacts = await _userServices.getEmergencyContacs(userId: userModel.id);
+  // getPosts() async {
+  //   posts = await _userServices.getEmergencyContacs(userId: userModel.id);
   //   notifyListeners();
   // }
   //
