@@ -65,19 +65,6 @@ class NGOServices {
       print('ERROR: ${e.toString()}');
     }
   }
-  void removeHistory(String contactId, String id) async {
-    try {
-      await _firestore
-          .collection(collection)
-          .doc(id)
-          .collection(historyCollection)
-          .doc(contactId)
-          .delete();
-      print('History Removed');
-    } catch (e) {
-      print('ERROR: ${e.toString()}');
-    }
-  }
 
   Future<List<NGODataHome>> getPosts({String userId}) async {
     _firestore
@@ -95,7 +82,7 @@ class NGOServices {
       },
     );
   }
-  Future<List<NGODataHome>> getHistory({String userId}) async {
+  Future<List<NGODataHistory>> getHistory({String userId}) async {
     _firestore
         .collection(collection)
         .doc(userId)
@@ -103,12 +90,25 @@ class NGOServices {
         .get()
         .then(
           (result) {
-        List<NGODataHome> history = [];
+        List<NGODataHistory> history = [];
         for (DocumentSnapshot contact in result.docs) {
-          history.add(NGODataHome.fromSnapshot(contact));
+          history.add(NGODataHistory.fromSnapshot(contact));
         }
         return history;
       },
     );
   }
+  // void editPost(Map<String, dynamic> data, String id) async {
+  //   try {
+  //     await _firestore
+  //         .collection(collection)
+  //         .doc(id)
+  //         .collection(historyCollection)
+  //         .doc(data['id'])
+  //         .set(data);
+  //     print('History Added');
+  //   } catch (e) {
+  //     print('ERROR: ${e.toString()}');
+  //   }
+  // }
 }

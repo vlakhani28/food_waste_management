@@ -14,18 +14,21 @@ class NGOProvider with ChangeNotifier {
   NGOServices _userServices = NGOServices();
   NGOModel _userModel;
   List<NGODataHome> posts = [];
+  List<NGODataHistory> history = [];
 
   // getter
   NGOModel get userModel => _userModel;
+
   StatusNGO get status => _status;
+
   User get user => _user;
 
   NGOProvider.initialize() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onStateChanged);
   }
 
-  Future<bool> signIn(
-      String email, String password, BuildContext context) async {
+  Future<bool> signIn(String email, String password,
+      BuildContext context) async {
     try {
       _status = StatusNGO.Authenticating;
       notifyListeners();
@@ -90,41 +93,77 @@ class NGOProvider with ChangeNotifier {
     return Future.delayed(Duration.zero);
   }
 
-  // getPosts() async {
-  //   posts = await _userServices.getEmergencyContacs(userId: userModel.id);
-  //   notifyListeners();
-  // }
-  //
-  // Future<void> reloadContacts() async {
-  //   contacts = await _userServices.getEmergencyContacs(userId: userModel.id);
-  //   notifyListeners();
-  // }
-  //
-  // Future<bool> addSingleContact(
-  //     String name, String relation, String mobileNumber, String id) async {
-  //   try {
-  //     _userServices.addContact({
-  //       'name': name,
-  //       'relation': relation,
-  //       'mobileNumber': mobileNumber,
-  //       'id': id
-  //     }, userModel.id);
-  //     print('Add Contact');
-  //     notifyListeners();
-  //     return true;
-  //   } catch (e) {
-  //     print("THE ERROR ${e.toString()}");
-  //     return false;
-  //   }
-  // }
-  //
-  // Future<bool> removeSingleContact(String contactId) async {
-  //   try {
-  //     _userServices.removeContact(contactId, userModel.id);
-  //     return true;
-  //   } catch (e) {
-  //     print("THE ERROR ${e.toString()}");
-  //     return false;
-  //   }
-  // }
+  getPosts() async {
+    posts = await _userServices.getPosts(userId: userModel.id);
+    notifyListeners();
+  }
+
+  getHistory() async {
+    history = await _userServices.getHistory(userId: userModel.id);
+    notifyListeners();
+  }
+
+  Future<void> reloadPosts() async {
+    posts = await _userServices.getPosts(userId: userModel.id);
+    notifyListeners();
+  }
+
+  Future<void> reloadHistory() async {
+    history = await _userServices.getHistory(userId: userModel.id);
+    notifyListeners();
+  }
+
+  Future<bool> removePost(String postId) async {
+    try {
+      _userServices.removePost(postId, userModel.id);
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+
+  Future<bool> addPost(DateTime timestamp, String id, int quantity, String veg,
+      String pickUpDay, String mealType, int isDone) async {
+    try {
+      _userServices.addPost({
+        'createdTime': timestamp,
+        'id': id,
+        'quantity': quantity,
+        'veg': veg,
+        'pickUpDay': pickUpDay,
+        'mealType': mealType,
+        'isDone': isDone,
+      }, userModel.id);
+      print('Add Post');
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+
+  Future<bool> addHistory(DateTime timestamp, String id, int quantity, String veg,
+      String pickUpDay, String mealType, int isDone, String restaurant, DateTime date) async {
+    try {
+      _userServices.addPost({
+        'createdTime': timestamp,
+        'id': id,
+        'quantity': quantity,
+        'veg': veg,
+        'pickUpDay': pickUpDay,
+        'mealType': mealType,
+        'isDone': isDone,
+        'restaurant': restaurant,
+        'date': date
+      }, userModel.id);
+      print('Add Post');
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
 }

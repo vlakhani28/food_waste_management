@@ -49,3 +49,46 @@ class RestaurantDataHome {
   }
 
 }
+class RestaurantDataHistory {
+  static const createdTime = "createdTime";
+  static const ID = "id";
+  static const QUANTITY = "quantity";
+  static const VEG = "veg";
+  static const pickUpDay = "pickUpDay";
+  static const mealType = "mealType";
+  static const isDone = "isDone";
+  static const NGO = "ngo";
+  static const DATE = "date";
+
+  String _createdTime;
+  String _id;
+  String _quantity;
+  String _veg;
+  String _pickUpDay;
+  String _mealType;
+  String _isDone;
+  String _ngo;
+  String _date;
+
+  String get createdtime => _createdTime;
+  String get id => _id;
+  String get quantity => _quantity;
+  String get veg => _veg;
+  String get pickupday => _pickUpDay;
+  String get mealtype => _mealType;
+  String get isdone => _isDone;
+  String get ngo => _ngo;
+  String get date => _date;
+
+  RestaurantDataHistory.fromSnapshot(DocumentSnapshot snapshot) {
+    _createdTime = snapshot[createdTime];
+    _id = snapshot[ID];
+    _quantity = snapshot[QUANTITY];
+    _veg = snapshot[VEG];
+    _pickUpDay = snapshot[pickUpDay];
+    _mealType = snapshot[mealType];
+    _isDone = snapshot[isDone];
+    _ngo = snapshot[NGO];
+    _date = snapshot[DATE];
+  }
+}

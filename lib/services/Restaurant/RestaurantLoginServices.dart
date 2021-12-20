@@ -95,7 +95,7 @@ class UserServices {
       },
     );
   }
-  Future<List<RestaurantDataHome>> getHistory({String userId}) async {
+  Future<List<RestaurantDataHistory>> getHistory({String userId}) async {
     _firestore
         .collection(collection)
         .doc(userId)
@@ -103,9 +103,9 @@ class UserServices {
         .get()
         .then(
           (result) {
-        List<RestaurantDataHome> history = [];
+        List<RestaurantDataHistory> history = [];
         for (DocumentSnapshot contact in result.docs) {
-          history.add(RestaurantDataHome.fromSnapshot(contact));
+          history.add(RestaurantDataHistory.fromSnapshot(contact));
         }
         return history;
       },

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_waste_management/model/Restaurant/RestaurantHomeModel.dart';
 import 'package:food_waste_management/model/Restaurant/RestaurantLoginModel.dart';
 import 'package:food_waste_management/services/Restaurant/RestaurantLoginServices.dart';
 import 'package:food_waste_management/widgets/CustomSnackBar.dart';
@@ -12,8 +13,8 @@ class RestaurantProvider with ChangeNotifier {
   Status _status = Status.Uninitialized;
   UserServices _userServices = UserServices();
   RestaurantModel _userModel;
-  List<RestaurantModel> posts = [];
-
+  List<RestaurantDataHome> posts = [];
+  List<RestaurantDataHistory> history = [];
   // getter
   RestaurantModel get userModel => _userModel;
   Status get status => _status;
@@ -89,41 +90,77 @@ class RestaurantProvider with ChangeNotifier {
     return Future.delayed(Duration.zero);
   }
 
-  // getContacts() async {
-  //   contacts = await _userServices.getEmergencyContacs(userId: userModel.id);
-  //   notifyListeners();
-  // }
-  //
-  // Future<void> reloadContacts() async {
-  //   contacts = await _userServices.getEmergencyContacs(userId: userModel.id);
-  //   notifyListeners();
-  // }
-  //
-  // Future<bool> addSingleContact(
-  //     String name, String relation, String mobileNumber, String id) async {
-  //   try {
-  //     _userServices.addContact({
-  //       'name': name,
-  //       'relation': relation,
-  //       'mobileNumber': mobileNumber,
-  //       'id': id
-  //     }, userModel.id);
-  //     print('Add Contact');
-  //     notifyListeners();
-  //     return true;
-  //   } catch (e) {
-  //     print("THE ERROR ${e.toString()}");
-  //     return false;
-  //   }
-  // }
-  //
-  // Future<bool> removeSingleContact(String contactId) async {
-  //   try {
-  //     _userServices.removeContact(contactId, userModel.id);
-  //     return true;
-  //   } catch (e) {
-  //     print("THE ERROR ${e.toString()}");
-  //     return false;
-  //   }
-  // }
+  getPosts() async {
+    posts = await _userServices.getPosts(userId: userModel.id);
+    notifyListeners();
+  }
+
+  getHistory() async {
+    history = await _userServices.getHistory(userId: userModel.id);
+    notifyListeners();
+  }
+
+  Future<void> reloadPosts() async {
+    posts = await _userServices.getPosts(userId: userModel.id);
+    notifyListeners();
+  }
+
+  Future<void> reloadHistory() async {
+    history = await _userServices.getHistory(userId: userModel.id);
+    notifyListeners();
+  }
+
+  Future<bool> removePost(String postId) async {
+    try {
+      _userServices.removePost(postId, userModel.id);
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+
+  Future<bool> addPost(DateTime timestamp, String id, int quantity, String veg,
+      String pickUpDay, String mealType, int isDone) async {
+    try {
+      _userServices.addPost({
+        'createdTime': timestamp,
+        'id': id,
+        'quantity': quantity,
+        'veg': veg,
+        'pickUpDay': pickUpDay,
+        'mealType': mealType,
+        'isDone': isDone,
+      }, userModel.id);
+      print('Add Post');
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+
+  Future<bool> addHistory(DateTime timestamp, String id, int quantity, String veg,
+      String pickUpDay, String mealType, int isDone, String restaurant, DateTime date) async {
+    try {
+      _userServices.addPost({
+        'createdTime': timestamp,
+        'id': id,
+        'quantity': quantity,
+        'veg': veg,
+        'pickUpDay': pickUpDay,
+        'mealType': mealType,
+        'isDone': isDone,
+        'restaurant': restaurant,
+        'date': date
+      }, userModel.id);
+      print('Add Post');
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
 }
