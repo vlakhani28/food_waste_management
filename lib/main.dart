@@ -46,10 +46,9 @@ class ScreenController extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<RestaurantProvider>(context);
     final user1 = Provider.of<NGOProvider>(context);
-    //return NGODonate();
     if(user != null)
       {
-    switch (user.status) {
+    switch (user.status)  {
       case Status.Uninitialized:
         return SplashScreen();
       case Status.Authenticating:

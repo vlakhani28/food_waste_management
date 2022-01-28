@@ -13,27 +13,27 @@ class RestaurantDataHome {
   static const mealType = "mealType";
   static const isDone = "isDone";
 
-  String _createdTime;
+  Timestamp _createdTime;
   String _dishName;
   String _id;
-  String _quantity;
+  int _quantity;
   String _veg;
-  String _cookedBefore;
+  int _cookedBefore;
   String _withContainer;
   String _pickUpDay;
   String _mealType;
-  String _isDone;
+  int _isDone;
 
-  String get createdtime => _createdTime;
+  Timestamp get createdtime => _createdTime;
   String get dishname => _dishName;
   String get id => _id;
-  String get quantity => _quantity;
+  int get quantity => _quantity;
   String get veg => _veg;
-  String get cookedbefore => _cookedBefore;
+  int get cookedbefore => _cookedBefore;
   String get withcontainer => _withContainer;
   String get pickupday => _pickUpDay;
   String get mealtype => _mealType;
-  String get isdone => _isDone;
+  int get isdone => _isDone;
 
   RestaurantDataHome.fromSnapshot(DocumentSnapshot snapshot) {
     _createdTime = snapshot[createdTime];

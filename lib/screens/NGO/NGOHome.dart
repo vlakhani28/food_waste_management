@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_waste_management/providers/NGO/NGOLoginProvider.dart';
+import 'package:food_waste_management/screens/NGO/NGODonate.dart';
 import 'package:food_waste_management/utilities/constants.dart';
-import 'package:food_waste_management/widgets/drawer.dart';
+import 'package:food_waste_management/widgets/NGO/HistoryWidget.dart';
+import 'package:food_waste_management/widgets/NGO/ListRestaurant.dart';
+import 'package:food_waste_management/widgets/Restaurant/drawer.dart';
 import 'package:provider/provider.dart';
 
 class NGOHome extends StatefulWidget {
@@ -14,31 +17,25 @@ class _NGOHome extends State<NGOHome> {
 
   @override
   Widget build(BuildContext context) {
-    // final user = Provider.of<NGOProvider>(context);
-    // final name = user.userModel.name;
+    final user = Provider.of<NGOProvider>(context);
     final tabs = [
-      //ListWidget(),
-      Container(),
-      //History()
+      ListRestaurant(),
+      NGODonate(),
+      HistoryWidget(),
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        shadowColor: Colors.white,
-        elevation: 0.0,
-        title: Text('Hello,',style: kTitleStyle.copyWith(fontSize: 20.0,color: Colors.black)),
-        centerTitle: false,
-      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         unselectedItemColor: primaryColor,
         selectedItemColor: primaryColor,
         currentIndex: selectedIndex,
-        onTap: (index) => setState(() {
-          selectedIndex = index;
-        }),
+        onTap: (index) async{
+          await user.getPosts();
+          await user.getHistory();
+          setState(() {
+            selectedIndex = index;
+          });},
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_rounded,size: 28),
@@ -46,7 +43,7 @@ class _NGOHome extends State<NGOHome> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.campaign_sharp , size: 28),
-            label: 'Create Post',
+            label: 'Donate',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history , size: 28),
@@ -54,8 +51,8 @@ class _NGOHome extends State<NGOHome> {
           ),
         ],
       ),
-      body: tabs[selectedIndex],
-      endDrawer: CustomDrawer(),
+      body:
+      tabs[selectedIndex],
     );
   }
 }

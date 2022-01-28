@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:food_waste_management/widgets/CustomSnackBar.dart';
 import 'package:provider/provider.dart';
 import 'package:food_waste_management/providers/Restaurant/RestaurantLoginProvider.dart';
 import 'package:food_waste_management/utilities/constants.dart';
+import 'package:uuid/uuid.dart';
+import 'RestaurantHome.dart';
 
 class RestaurantDonate extends StatefulWidget {
   @override
@@ -69,27 +72,12 @@ class _RestaurantDonateState extends State<RestaurantDonate> {
                         primary: primaryColor,
                         padding: EdgeInsets.all(10.0)),
                     onPressed: () {
-                      //Do Something
-                      // if (_formKey.currentState.validate()) {
-                      //   {
-                      //     if (!await user.signUp(
-                      //         _name.text,
-                      //         _email.text,
-                      //         _confirmPassword.text,
-                      //         _address.text,
-                      //         _mobileNumber.text,
-                      //         context)) {
-                      //       return null;
-                      //     } else {
-                      //       return Navigator.pushReplacement(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (_) => LoginScreen(),
-                      //         ),
-                      //       );
-                      //     }
-                      //   }
-                      // }
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => RestaurantHome(),
+                        ),
+                      );
                     }),
               ],
             ),
@@ -100,6 +88,8 @@ class _RestaurantDonateState extends State<RestaurantDonate> {
   }
   Widget _buildSubmitBtn(BuildContext context) {
     final user = Provider.of<RestaurantProvider>(context);
+    var uuid = Uuid();
+    var id = uuid.v4();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.0),
       width: double.infinity,
@@ -115,7 +105,26 @@ class _RestaurantDonateState extends State<RestaurantDonate> {
               primary: primaryColor,
               padding: EdgeInsets.all(10.0)),
           onPressed: () async {
-            showDialog(context: context, builder: (BuildContext context) => _buildPopUpDialog(context),);
+            if (_formKey.currentState.validate()) {
+              {
+                if (await user.addPost(
+                  DateTime.now(),
+                  _name.text,
+                  id,
+                  int.parse(_quantity.text),
+                  _veg,
+                  int.parse(_cookedBefore.text),
+                  _withContainer,
+                  _pickupDay,
+                  _mealType,
+                  0,
+                )) {
+                  showDialog(context: context, builder: (BuildContext context) => _buildPopUpDialog(context),);
+                } else {
+                  return CustomSnackbar(message: "Cannot add data");
+                }
+              }
+            }
           }),
     );
   }
@@ -135,10 +144,6 @@ class _RestaurantDonateState extends State<RestaurantDonate> {
           style: kTitleStyle.copyWith(
               fontSize: 25.0, color: primaryColor),
         ),
-        leading:IconButton(
-        icon: Icon(Icons.keyboard_arrow_left_rounded , color: Colors.black,size: 30.0,),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
@@ -363,33 +368,6 @@ class _RestaurantDonateState extends State<RestaurantDonate> {
                                     ))
                                         .toList(),
                                   )
-                              ),
-                              SizedBox(height: 10.0),
-                              Text(
-                                'Pickup Time',
-                                style: kLabelStyle,
-                              ),
-                              SizedBox(height: 10.0),
-                              Container(
-                                decoration: kBoxDecorationStyle,
-                                child: TextFormField(
-                                  controller: _cookedBefore,
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  keyboardType: TextInputType.phone,
-                                  style: kTextFieldTextStyle.copyWith(
-                                      color: Colors.black),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Cooked Before",
-                                    hintStyle: kPlaceHolderStyle,
-                                    prefixIcon: Icon(
-                                      Icons.access_alarm_rounded,
-                                      color: labelColor,
-                                    ),
-                                  ),
-                                ),
                               ),
                               SizedBox(height: 15.0),
                               _buildSubmitBtn(context),

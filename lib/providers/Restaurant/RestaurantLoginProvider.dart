@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_waste_management/model/NGO/NGOHomeModel.dart';
 import 'package:food_waste_management/model/Restaurant/RestaurantHomeModel.dart';
 import 'package:food_waste_management/model/Restaurant/RestaurantLoginModel.dart';
 import 'package:food_waste_management/services/Restaurant/RestaurantLoginServices.dart';
@@ -14,6 +15,8 @@ class RestaurantProvider with ChangeNotifier {
   UserServices _userServices = UserServices();
   RestaurantModel _userModel;
   List<RestaurantDataHome> posts = [];
+  List<NGODataHome> NGOPosts = [];
+  String name;
   List<RestaurantDataHistory> history = [];
   // getter
   RestaurantModel get userModel => _userModel;
@@ -77,7 +80,7 @@ class RestaurantProvider with ChangeNotifier {
       _status = Status.Unauthenticated;
     } else {
       _user = user;
-      // _userModel = await _userServices.getUserById(user.uid);
+      _userModel = await _userServices.getUserById(user.uid);
       _status = Status.Authenticated;
     }
     notifyListeners();
@@ -90,12 +93,16 @@ class RestaurantProvider with ChangeNotifier {
     return Future.delayed(Duration.zero);
   }
 
-  getPosts() async {
+  Future getPosts() async {
     posts = await _userServices.getPosts(userId: userModel.id);
     notifyListeners();
   }
 
-  getHistory() async {
+  Future getNGO() async {
+    NGOPosts = await _userServices.getNGO();
+    notifyListeners();
+  }
+  Future getHistory() async {
     history = await _userServices.getHistory(userId: userModel.id);
     notifyListeners();
   }
@@ -120,14 +127,17 @@ class RestaurantProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> addPost(DateTime timestamp, String id, int quantity, String veg,
+  Future<bool> addPost(DateTime timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
       String pickUpDay, String mealType, int isDone) async {
     try {
       _userServices.addPost({
         'createdTime': timestamp,
+        'dishName':dishname,
         'id': id,
         'quantity': quantity,
         'veg': veg,
+        'cookedBefore': cookedBefore,
+        'withContainer': withContainer,
         'pickUpDay': pickUpDay,
         'mealType': mealType,
         'isDone': isDone,

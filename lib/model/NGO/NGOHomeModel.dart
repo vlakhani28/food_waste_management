@@ -10,21 +10,21 @@ class NGODataHome {
   static const mealType = "mealType";
   static const isDone = "isDone";
 
-  String _createdTime;
+  Timestamp _createdTime;
   String _id;
-  String _quantity;
+  int _quantity;
   String _veg;
   String _pickUpDay;
   String _mealType;
-  String _isDone;
+  int _isDone;
 
-  String get createdtime => _createdTime;
+  Timestamp get createdtime => _createdTime;
   String get id => _id;
-  String get quantity => _quantity;
+  int get quantity => _quantity;
   String get veg => _veg;
   String get pickupday => _pickUpDay;
   String get mealtype => _mealType;
-  String get isdone => _isDone;
+  int get isdone => _isDone;
 
   NGODataHome.fromSnapshot(DocumentSnapshot snapshot) {
     _createdTime = snapshot[createdTime];

@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    initialize();
+   initialize();
   }
 
   void initialize() async {

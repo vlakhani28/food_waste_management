@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:food_waste_management/model/NGO/NGOHomeModel.dart';
 import 'package:food_waste_management/model/Restaurant/RestaurantHomeModel.dart';
 import 'package:food_waste_management/model/Restaurant/RestaurantLoginModel.dart';
+
 
 class UserServices {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -20,10 +22,10 @@ class UserServices {
       _firestore.collection(collection).doc(id).get().then(
             (doc) {
           print("==========id is $id=============");
-          print(doc);
           return RestaurantModel.fromSnapshot(doc);
         },
       );
+
 
   void addPost(Map<String, dynamic> data, String id) async {
     try {
@@ -94,6 +96,24 @@ class UserServices {
         return posts;
       },
     );
+  }
+
+  Future<List<NGODataHome>> getNGO() async {
+    _firestore.collection("NGO").get().then((querySnapshot) async {
+        querySnapshot.docs.forEach((result) async {
+          await _firestore
+              .collection("NGO")
+              .doc(result.id)
+              .collection("posts")
+              .get()
+            .then((querySnapshot) {
+          List<NGODataHome> listNGO = [];
+          querySnapshot.docs.forEach((result) {
+            listNGO.add(NGODataHome.fromSnapshot(result));
+          });
+        });
+      });
+    });
   }
   Future<List<RestaurantDataHistory>> getHistory({String userId}) async {
     _firestore

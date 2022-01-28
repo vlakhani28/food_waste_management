@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:food_waste_management/screens/NGO/NGOHome.dart';
+import 'package:food_waste_management/widgets/CustomSnackBar.dart';
 import 'package:provider/provider.dart';
-import 'package:food_waste_management/providers/Restaurant/RestaurantLoginProvider.dart';
+import 'package:food_waste_management/providers/NGO/NGOLoginProvider.dart';
 import 'package:food_waste_management/utilities/constants.dart';
+import 'package:uuid/uuid.dart';
 class NGODonate extends StatefulWidget {
   @override
   _NGODonateState createState() => _NGODonateState();
@@ -16,7 +19,7 @@ class _NGODonateState extends State<NGODonate> {
   var _mealType;
 
   Widget _buildPopUpDialog(BuildContext context) {
-    final user = Provider.of<RestaurantProvider>(context);
+    final user = Provider.of<NGOProvider>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -63,27 +66,12 @@ class _NGODonateState extends State<NGODonate> {
                         primary: primaryColor,
                         padding: EdgeInsets.all(10.0)),
                     onPressed: () {
-                      //Do Something
-                      // if (_formKey.currentState.validate()) {
-                      //   {
-                      //     if (!await user.signUp(
-                      //         _name.text,
-                      //         _email.text,
-                      //         _confirmPassword.text,
-                      //         _address.text,
-                      //         _mobileNumber.text,
-                      //         context)) {
-                      //       return null;
-                      //     } else {
-                      //       return Navigator.pushReplacement(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (_) => LoginScreen(),
-                      //         ),
-                      //       );
-                      //     }
-                      //   }
-                      // }
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => NGOHome(),
+                        ),
+                      );
                     }),
               ],
             ),
@@ -93,7 +81,9 @@ class _NGODonateState extends State<NGODonate> {
     );
   }
   Widget _buildSubmitBtn(BuildContext context) {
-    final user = Provider.of<RestaurantProvider>(context);
+    final user = Provider.of<NGOProvider>(context);
+    var uuid = Uuid();
+    var id = uuid.v4();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.0),
       width: double.infinity,
@@ -109,7 +99,23 @@ class _NGODonateState extends State<NGODonate> {
               primary: primaryColor,
               padding: EdgeInsets.all(10.0)),
           onPressed: () async {
-            showDialog(context: context, builder: (BuildContext context) => _buildPopUpDialog(context),);
+            if (_formKey.currentState.validate()) {
+              {
+                if (await user.addPost(
+                    DateTime.now(),
+                    id,
+                    int.parse(_quantity.text),
+                    _veg,
+                    _pickupDay,
+                    _mealType,
+                    1,
+                    )) {
+                  showDialog(context: context, builder: (BuildContext context) => _buildPopUpDialog(context),);
+                } else {
+                  return CustomSnackbar(message: "Cannot add data");
+                }
+              }
+            }
           }),
     );
   }
@@ -117,7 +123,6 @@ class _NGODonateState extends State<NGODonate> {
 
   @override
   Widget build(BuildContext context) {
-    //final user = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         shadowColor: Colors.white,

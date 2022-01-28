@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_waste_management/providers/Restaurant/RestaurantLoginProvider.dart';
+import 'package:food_waste_management/screens/Restaurant/RestaurantDonate.dart';
 import 'package:food_waste_management/utilities/constants.dart';
-import 'package:food_waste_management/widgets/drawer.dart';
+import 'package:food_waste_management/widgets/Restaurant/HistoryWidget.dart';
+import 'package:food_waste_management/widgets/Restaurant/ListNGO.dart';
+import 'package:food_waste_management/widgets/Restaurant/MyPosts.dart';
+import 'package:food_waste_management/widgets/Restaurant/drawer.dart';
 import 'package:provider/provider.dart';
 
 class RestaurantHome extends StatefulWidget {
@@ -11,34 +16,30 @@ class RestaurantHome extends StatefulWidget {
 
 class _RestaurantHome extends State<RestaurantHome> {
   int selectedIndex = 0;
-
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    // final user = Provider.of<RestaurantProvider>(context);
-    // final name = user.userModel.name;
+    final user = Provider.of<RestaurantProvider>(context);
     final tabs = [
-      //ListWidget(),
-      Container(),
-      //History()
+      ListNGO(),
+      RestaurantDonate(),
+      HistoryWidget(),
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        shadowColor: Colors.white,
-        elevation: 0.0,
-        title: Text('Hello,',style: kTitleStyle.copyWith(fontSize: 20.0,color: Colors.black)),
-        centerTitle: false,
-      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         unselectedItemColor: primaryColor,
         selectedItemColor: primaryColor,
         currentIndex: selectedIndex,
-        onTap: (index) => setState(() {
+        onTap: (index){
+          setState(() {
           selectedIndex = index;
-        }),
+        });},
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_rounded,size: 28),
@@ -54,8 +55,8 @@ class _RestaurantHome extends State<RestaurantHome> {
           ),
         ],
       ),
-      body: tabs[selectedIndex],
-      endDrawer: CustomDrawer(),
+      body:
+      tabs[selectedIndex],
     );
   }
 }
