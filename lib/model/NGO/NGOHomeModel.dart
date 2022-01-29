@@ -38,45 +38,53 @@ class NGODataHome {
 }
 
 class NGODataHistory {
-  static const createdTime = "createdTime";
+  static const orderPlaced = "orderPlaced";
   static const ID = "id";
+  static const DISHNAME = "dishName";
   static const QUANTITY = "quantity";
   static const VEG = "veg";
   static const pickUpDay = "pickUpDay";
+  static const WITHCONTAINER = "withContainer";
   static const mealType = "mealType";
-  static const isDone = "isDone";
-  static const RESTAURANT = "restaurant";
-  static const DATE = "date";
+  static const COOKEDBEFORE = "cookedBefore";
+  static const RESTNAME = "restName";
+  static const RESTNumber = "restNumber";
 
-  String _createdTime;
+  DateTime _orderPlaced;
+  String _dishName;
   String _id;
-  String _quantity;
+  int _quantity;
   String _veg;
   String _pickUpDay;
+  String _withContainer;
   String _mealType;
-  String _isDone;
-  String _restaurant;
-  String _date;
+  int _cookedBefore;
+  String _restName;
+  String _restNumber;
 
-  String get createdtime => _createdTime;
+  DateTime get createdtime => _orderPlaced;
   String get id => _id;
-  String get quantity => _quantity;
+  String get dishName => _dishName;
+  int get quantity => _quantity;
   String get veg => _veg;
   String get pickupday => _pickUpDay;
+  String get withContainer => _withContainer;
   String get mealtype => _mealType;
-  String get isdone => _isDone;
-  String get restaurant => _restaurant;
-  String get date => _date;
+  int get cookedBefore => _cookedBefore;
+  String get restName => _restName;
+  String get restNumber => _restNumber;
 
   NGODataHistory.fromSnapshot(DocumentSnapshot snapshot) {
-    _createdTime = snapshot[createdTime];
+    _orderPlaced = snapshot[orderPlaced];
     _id = snapshot[ID];
+    _dishName = snapshot[DISHNAME];
     _quantity = snapshot[QUANTITY];
     _veg = snapshot[VEG];
     _pickUpDay = snapshot[pickUpDay];
+    _withContainer = snapshot[WITHCONTAINER];
     _mealType = snapshot[mealType];
-    _isDone = snapshot[isDone];
-    _restaurant = snapshot[RESTAURANT];
-    _date = snapshot[DATE];
+    _cookedBefore = snapshot[COOKEDBEFORE];
+    _restName = snapshot[RESTNAME];
+    _restNumber = snapshot[RESTNumber];
   }
 }

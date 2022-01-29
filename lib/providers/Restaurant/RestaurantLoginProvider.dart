@@ -117,9 +117,19 @@ class RestaurantProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> removePost(String postId) async {
+  Future<bool> removePost(String postId, String userId) async {
     try {
-      _userServices.removePost(postId, userModel.id);
+      _userServices.removePost(postId, userId);
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+
+  Future<bool> removeOnGoing(String postId, String userId) async {
+    try {
+      _userServices.removeOnGoing(postId, userId);
       return true;
     } catch (e) {
       print("THE ERROR ${e.toString()}");
@@ -151,21 +161,48 @@ class RestaurantProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> addHistory(DateTime timestamp, String id, int quantity, String veg,
-      String pickUpDay, String mealType, int isDone, String restaurant, DateTime date) async {
+  Future<bool> addOnGoing(DateTime timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
+      String pickUpDay, String mealType, String uin,String ngo, String userId) async {
     try {
-      _userServices.addPost({
-        'createdTime': timestamp,
+      _userServices.addOnGoing({
+        'orderPlaced': timestamp,
+        'dishName':dishname,
         'id': id,
         'quantity': quantity,
         'veg': veg,
+        'cookedBefore': cookedBefore,
+        'withContainer': withContainer,
         'pickUpDay': pickUpDay,
         'mealType': mealType,
-        'isDone': isDone,
-        'restaurant': restaurant,
-        'date': date
-      }, userModel.id);
-      print('Add Post');
+        'ngoUIN': ngo,
+        'ngoName': uin,
+      }, userId);
+      print('Add OnGoing');
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+
+  Future<bool> addHistory(DateTime timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
+      String pickUpDay, String mealType, String uin,String ngo,String userId) async {
+    try {
+      _userServices.addOnGoing({
+        'orderPlaced': timestamp,
+        'dishName':dishname,
+        'id': id,
+        'quantity': quantity,
+        'veg': veg,
+        'cookedBefore': cookedBefore,
+        'withContainer': withContainer,
+        'pickUpDay': pickUpDay,
+        'mealType': mealType,
+        'ngoUIN': uin,
+        'ngoName': ngo,
+      }, userId);
+      print('Add History');
       notifyListeners();
       return true;
     } catch (e) {

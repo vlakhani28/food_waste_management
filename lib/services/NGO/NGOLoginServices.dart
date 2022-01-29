@@ -7,6 +7,7 @@ class NGOServices {
   String collection = "NGO";
   String postsCollection = "posts";
   String historyCollection = "history";
+  String ongoingCollection = "onGoing";
   createUser(Map<String, dynamic> data) async {
     try {
       await _firestore.collection(collection).doc(data["id"]).set(data);
@@ -38,6 +39,19 @@ class NGOServices {
       print('ERROR: ${e.toString()}');
     }
   }
+  void addOnGoing(Map<String, dynamic> data, String id) async {
+    try {
+      await _firestore
+          .collection(collection)
+          .doc(id)
+          .collection(ongoingCollection)
+          .doc(data['id'])
+          .set(data);
+      print('OnGoing Added');
+    } catch (e) {
+      print('ERROR: ${e.toString()}');
+    }
+  }
   void addHistory(Map<String, dynamic> data, String id) async {
     try {
       await _firestore
@@ -61,6 +75,19 @@ class NGOServices {
           .doc(contactId)
           .delete();
       print('Post Removed');
+    } catch (e) {
+      print('ERROR: ${e.toString()}');
+    }
+  }
+  void removeOnGoing(String contactId, String id) async {
+    try {
+      await _firestore
+          .collection(collection)
+          .doc(id)
+          .collection(ongoingCollection)
+          .doc(contactId)
+          .delete();
+      print('History Removed');
     } catch (e) {
       print('ERROR: ${e.toString()}');
     }
@@ -98,17 +125,4 @@ class NGOServices {
       },
     );
   }
-  // void editPost(Map<String, dynamic> data, String id) async {
-  //   try {
-  //     await _firestore
-  //         .collection(collection)
-  //         .doc(id)
-  //         .collection(historyCollection)
-  //         .doc(data['id'])
-  //         .set(data);
-  //     print('History Added');
-  //   } catch (e) {
-  //     print('ERROR: ${e.toString()}');
-  //   }
-  // }
 }

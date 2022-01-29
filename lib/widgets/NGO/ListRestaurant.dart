@@ -81,7 +81,7 @@ class CardItem extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () async {
-                bool success = await user.removePost(index);
+                bool success = await user.removePost(index,user.userModel.id);
                 if (success) {
                   user.reloadPosts();
                   CustomSnackbar.show(context, 'Post Removed');

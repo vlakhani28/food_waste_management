@@ -113,9 +113,9 @@ class NGOProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> removePost(String postId) async {
+  Future<bool> removePost(String postId, String userId) async {
     try {
-      _userServices.removePost(postId, userModel.id);
+      _userServices.removePost(postId, userId);
       return true;
     } catch (e) {
       print("THE ERROR ${e.toString()}");
@@ -123,6 +123,39 @@ class NGOProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> removeOnGoing(String postId,String userId) async {
+    try {
+      _userServices.removeOnGoing(postId, userId);
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+  Future<bool> addOnGoing(DateTime timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
+      String pickUpDay, String mealType, String number,String name, String userId) async {
+    try {
+      _userServices.addOnGoing({
+        'orderPlaced': timestamp,
+        'dishName': dishname,
+        'id': id,
+        'quantity': quantity,
+        'veg': veg,
+        'cookedBefore': cookedBefore,
+        'withContainer': withContainer,
+        'pickUpDay': pickUpDay,
+        'mealType': mealType,
+        'restNumber': number,
+        'restName': name,
+      }, userId);
+      print('Add OnGoing');
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
   Future<bool> addPost(DateTime timestamp, String id, int quantity, String veg,
       String pickUpDay, String mealType, int isDone) async {
     try {
@@ -144,21 +177,23 @@ class NGOProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> addHistory(DateTime timestamp, String id, int quantity, String veg,
-      String pickUpDay, String mealType, int isDone, String restaurant, DateTime date) async {
+  Future<bool> addHistory(DateTime timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
+      String pickUpDay, String mealType, String number,String name,String userId) async {
     try {
-      _userServices.addPost({
-        'createdTime': timestamp,
+      _userServices.addHistory({
+        'orderPlaced': timestamp,
+        'dishName':dishname,
         'id': id,
         'quantity': quantity,
         'veg': veg,
+        'cookedBefore': cookedBefore,
+        'withContainer': withContainer,
         'pickUpDay': pickUpDay,
         'mealType': mealType,
-        'isDone': isDone,
-        'restaurant': restaurant,
-        'date': date
-      }, userModel.id);
-      print('Add Post');
+        'restNumber': number,
+        'restName': name,
+      }, userId);
+      print('Add History');
       notifyListeners();
       return true;
     } catch (e) {

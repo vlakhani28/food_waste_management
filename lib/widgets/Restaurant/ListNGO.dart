@@ -71,6 +71,8 @@ class ListV extends StatelessWidget {
           name: doc['name'],
           projectKey: doc.id,
           firestore: firestore,
+          uin: doc['uin'],
+          id: doc['id']
         ),
       );
     });
@@ -89,10 +91,12 @@ class ListV extends StatelessWidget {
 
 class CardItem extends StatelessWidget {
   CardItem(
-      { this.projectKey,  this.name,  this.firestore});
+      { this.projectKey,  this.name,  this.firestore, this.uin, this.id});
 
   final String projectKey;
   final String name;
+  final String uin;
+  final String id;
   final FirebaseFirestore firestore;
 
   @override
@@ -123,6 +127,10 @@ class CardItem extends StatelessWidget {
                       quantity: doc["quantity"],
                       pickUpDay: doc["pickUpDay"],
                       veg: doc["veg"],
+                      id: doc["id"],
+                      uin: uin,
+                      ngoId:id,
+                      postId:doc["id"]
                 ));
               });
               return Column(children: allPosts);
@@ -133,15 +141,21 @@ class CardItem extends StatelessWidget {
 }
 
 class CreateCard extends StatelessWidget {
-  CreateCard({ this.name, this.mealType,  this.pickUpDay,  this.quantity,this.veg});
+  CreateCard({ this.name, this.mealType,  this.pickUpDay,  this.quantity,this.veg, this.id, this.uin,this.ngoId,this.postId});
 
   final String mealType;
   final String name;
   final String pickUpDay;
   final String veg;
   final int quantity;
+  final String id;
+  final String uin;
+  final String ngoId;
+  final String postId;
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<RestaurantProvider>(context);
+    final user1 = Provider.of<NGOProvider>(context);
     return Card(
       color: Colors.white,
       elevation: 5,
@@ -234,6 +248,9 @@ class CreateCard extends StatelessWidget {
                         primary: primaryColor,
                         padding: EdgeInsets.all(10.0)),
                     onPressed: (){
+                      user.addOnGoing(DateTime.now(), "dishname", id, quantity, veg, 0, "withContainer", pickUpDay, mealType, name, uin,user.userModel.id);
+                      user1.addOnGoing(DateTime.now(), "dishname", id, quantity, veg, 0, "withContainer", pickUpDay, mealType, user.userModel.mobileNumber,user.userModel.name,ngoId);
+                      user1.removePost(postId, ngoId);
                       //Delete the post on clicking donate
                       return Navigator.pushReplacement(
                         context,

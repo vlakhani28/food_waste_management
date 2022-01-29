@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_waste_management/providers/Restaurant/RestaurantLoginProvider.dart';
+import 'package:food_waste_management/screens/Restaurant/RestaurantHome.dart';
 import 'package:food_waste_management/utilities/constants.dart';
 import 'package:provider/provider.dart';
 import '../CustomSnackBar.dart';
@@ -23,6 +24,12 @@ class _ListWidgetState extends State<ListWidget> {
         backgroundColor: primaryColor,
         elevation: 0.0,
         title: Text("My Posts",style: kTextFieldTextStyle.copyWith(fontSize: 25),),
+        leading: BackButton(onPressed:(){return Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => RestaurantHome(),
+          ),
+        );}),
       ),
       body: Container(
             decoration: BoxDecoration(color: Color(0xfff5f3f4)),
@@ -78,7 +85,7 @@ class CardItem extends StatelessWidget {
               padding: EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () async {
-                  bool success = await user.removePost(index);
+                  bool success = await user.removePost(index,user.userModel.id);
                   if (success) {
                     user.reloadPosts();
                     CustomSnackbar.show(context, 'Post Removed');
