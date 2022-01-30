@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_waste_management/providers/NGO/NGOLoginProvider.dart';
 import 'package:food_waste_management/screens/LoginScreen.dart';
+import 'package:food_waste_management/widgets/NGO/CurrentOrders.dart';
 import 'package:provider/provider.dart';
-import 'package:food_waste_management/providers/Restaurant/RestaurantLoginProvider.dart';
-import 'package:food_waste_management/screens/Restaurant/LoginScreenRestaurant.dart';
 import 'package:food_waste_management/screens/ResetPasswordScreen.dart';
 import 'package:food_waste_management/utilities/constants.dart';
-
 import 'MyPosts.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -53,8 +51,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
               title: Text('My Posts',
                   style: kTitleStyle.copyWith(color: primaryColor)),
-                onTap: () async {
-                  await user.getPosts();
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -70,7 +67,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
               title: Text('Ongoing Orders ',
                   style: kTitleStyle.copyWith(color: primaryColor)),
-              onTap: () {},
+              onTap: ()  {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CurrentOrders(),
+                  ),
+                );
+              },
             ),
             ListTile(
               leading: Icon(
@@ -91,15 +95,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ListTile(
               leading: Icon(
                 Icons.feedback_rounded ,
-                color: primaryColor,
-              ),
-              title: Text('Feedback',
-                  style: kTitleStyle.copyWith(color: primaryColor)),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.rate_review_rounded,
                 color: primaryColor,
               ),
               title: Text('Rate Us',

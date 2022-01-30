@@ -248,10 +248,9 @@ class CreateCard extends StatelessWidget {
                         primary: primaryColor,
                         padding: EdgeInsets.all(10.0)),
                     onPressed: (){
-                      user.addOnGoing(DateTime.now(), "dishname", id, quantity, veg, 0, "withContainer", pickUpDay, mealType, name, uin,user.userModel.id);
-                      user1.addOnGoing(DateTime.now(), "dishname", id, quantity, veg, 0, "withContainer", pickUpDay, mealType, user.userModel.mobileNumber,user.userModel.name,ngoId);
+                      user.addOnGoing(DateTime.now(), "dishname", id, quantity, veg, 0, "withContainer", pickUpDay, mealType, name, uin,ngoId,user.userModel.id);
+                      user1.addOnGoing(DateTime.now(), "dishname", id, quantity, veg, 0, "withContainer", pickUpDay, mealType, user.userModel.mobileNumber,user.userModel.name,user.userModel.id,ngoId);
                       user1.removePost(postId, ngoId);
-                      //Delete the post on clicking donate
                       return Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_waste_management/model/NGO/NGOHomeModel.dart';
@@ -80,7 +81,7 @@ class NGOProvider with ChangeNotifier {
       _status = StatusNGO.Unauthenticated;
     } else {
       _user = user;
-      //_userModel = await _userServices.getUserById(user.uid);
+      _userModel = await _userServices.getUserById(user.uid);
       _status = StatusNGO.Authenticated;
     }
     notifyListeners();
@@ -133,7 +134,7 @@ class NGOProvider with ChangeNotifier {
     }
   }
   Future<bool> addOnGoing(DateTime timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
-      String pickUpDay, String mealType, String number,String name, String userId) async {
+      String pickUpDay, String mealType, String number,String name, String restId,String userId) async {
     try {
       _userServices.addOnGoing({
         'orderPlaced': timestamp,
@@ -147,6 +148,7 @@ class NGOProvider with ChangeNotifier {
         'mealType': mealType,
         'restNumber': number,
         'restName': name,
+        'restId': restId,
       }, userId);
       print('Add OnGoing');
       notifyListeners();
@@ -177,8 +179,8 @@ class NGOProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> addHistory(DateTime timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
-      String pickUpDay, String mealType, String number,String name,String userId) async {
+  Future<bool> addHistory(Timestamp timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
+      String pickUpDay, String mealType, String number,String name,String restId,String userId) async {
     try {
       _userServices.addHistory({
         'orderPlaced': timestamp,
@@ -192,6 +194,7 @@ class NGOProvider with ChangeNotifier {
         'mealType': mealType,
         'restNumber': number,
         'restName': name,
+        'restId' : restId,
       }, userId);
       print('Add History');
       notifyListeners();

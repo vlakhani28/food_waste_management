@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_waste_management/model/NGO/NGOHomeModel.dart';
@@ -162,7 +163,7 @@ class RestaurantProvider with ChangeNotifier {
   }
 
   Future<bool> addOnGoing(DateTime timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
-      String pickUpDay, String mealType, String uin,String ngo, String userId) async {
+      String pickUpDay, String mealType, String uin,String ngo, String ngoId,String userId) async {
     try {
       _userServices.addOnGoing({
         'orderPlaced': timestamp,
@@ -176,6 +177,7 @@ class RestaurantProvider with ChangeNotifier {
         'mealType': mealType,
         'ngoUIN': ngo,
         'ngoName': uin,
+        'ngoId': ngoId,
       }, userId);
       print('Add OnGoing');
       notifyListeners();
@@ -186,10 +188,10 @@ class RestaurantProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> addHistory(DateTime timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
-      String pickUpDay, String mealType, String uin,String ngo,String userId) async {
+  Future<bool> addHistory(Timestamp timestamp, String dishname, String id, int quantity, String veg, int cookedBefore, String withContainer,
+      String pickUpDay, String mealType, String uin,String ngo,String ngoId, String userId) async {
     try {
-      _userServices.addOnGoing({
+      _userServices.addHistory({
         'orderPlaced': timestamp,
         'dishName':dishname,
         'id': id,
@@ -201,6 +203,7 @@ class RestaurantProvider with ChangeNotifier {
         'mealType': mealType,
         'ngoUIN': uin,
         'ngoName': ngo,
+        'ngoId': ngoId,
       }, userId);
       print('Add History');
       notifyListeners();

@@ -62,7 +62,7 @@ class RestaurantDataHistory {
   static const NGONAME = "ngoName";
   static const NGOUIN = "ngoUIN";
 
-  DateTime _orderPlaced;
+  Timestamp _orderPlaced;
   String _dishName;
   String _id;
   int _quantity;
@@ -74,7 +74,7 @@ class RestaurantDataHistory {
   String _ngoName;
   String _ngoUIN;
 
-  DateTime get createdtime => _orderPlaced;
+  Timestamp get createdtime => _orderPlaced;
   String get id => _id;
   String get dishName => _dishName;
   int get quantity => _quantity;

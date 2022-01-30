@@ -50,7 +50,7 @@ class NGODataHistory {
   static const RESTNAME = "restName";
   static const RESTNumber = "restNumber";
 
-  DateTime _orderPlaced;
+  Timestamp _orderPlaced;
   String _dishName;
   String _id;
   int _quantity;
@@ -62,7 +62,7 @@ class NGODataHistory {
   String _restName;
   String _restNumber;
 
-  DateTime get createdtime => _orderPlaced;
+  Timestamp get createdtime => _orderPlaced;
   String get id => _id;
   String get dishName => _dishName;
   int get quantity => _quantity;
