@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:food_waste_management/widgets/CustomSnackBar.dart';
 import 'package:provider/provider.dart';
 import 'package:food_waste_management/providers/NGO/NGOLoginProvider.dart';
 import 'package:food_waste_management/screens/RegisterScreen.dart';

@@ -6,6 +6,7 @@ import 'package:food_waste_management/model/Restaurant/RestaurantHomeModel.dart'
 import 'package:food_waste_management/model/Restaurant/RestaurantLoginModel.dart';
 import 'package:food_waste_management/services/Restaurant/RestaurantLoginServices.dart';
 import 'package:food_waste_management/widgets/CustomSnackBar.dart';
+import 'package:intl/intl.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -117,6 +118,32 @@ class RestaurantProvider with ChangeNotifier {
     history = await _userServices.getHistory(userId: userModel.id);
     notifyListeners();
   }
+
+  // void removePostsHours()  {
+  //   FirebaseFirestore.instance
+  //       .collection('restaurant')
+  //       .get()
+  //       .then((QuerySnapshot querySnapshot) {
+  //     querySnapshot.docs.forEach((doc) {
+  //       FirebaseFirestore.instance
+  //           .doc(doc.id)
+  //           .collection("posts")
+  //           .get().then((value) async {
+  //
+  //         for(var posts in value.docs)
+  //         {
+  //            DateTime dt1 = DateTime.parse(DateFormat('yyyy-MM-dd – kk:mm').format(posts['createdTime']));
+  //            DateTime dt2 = DateTime.parse(DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now()));
+  //            Duration diff = dt1.difference(dt2);
+  //            if(diff.inHours - posts["cookedBefore"] > 12)
+  //              {
+  //                await removePost(doc.id, doc["id"]);
+  //              }
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
 
   Future<bool> removePost(String postId, String userId) async {
     try {

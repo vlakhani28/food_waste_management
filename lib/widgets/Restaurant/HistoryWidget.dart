@@ -38,9 +38,39 @@ class _HistoryWidgetState extends State<HistoryWidget> {
             child: StreamBuilder<QuerySnapshot>(
                 stream: widget._firestore.collection("restaurant/"+user.user.uid+"/history").snapshots(),
                 builder: (context,snapshot) {
-                  if (!snapshot.hasData) {
-                    return Text("Loading...");
+                  if (snapshot.data.docs.isEmpty) {
+                    return Scaffold(
+                        backgroundColor: Colors.white,
+                        body: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: AssetImage('assets/images/no_posts.png'),
+                                height: 300,
+                                width: 300,
+                              ),
+                              SizedBox(height: 10.0),
+                              Text(
+                                'No History Found',
+                                style: kTitleStyle.copyWith(
+                                    fontSize: 30.0, color: Colors.black,fontWeight: FontWeight.normal),
+                              ),
+                              SizedBox(height: 20.0),
+                              Text(
+                                "Looks like you haven't donated anything yet!",
+                                style: kLabelStyle.copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 18.0),
+                              )
+                            ],
+                          ),
+                        ));
                   }
+                  else
+                    {
                   return ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (context, index) {
@@ -54,12 +84,13 @@ class _HistoryWidgetState extends State<HistoryWidget> {
                         int quantity = snapshot.data.docs[index]["quantity"];
                         String mealType = snapshot.data.docs[index]["mealType"];
                         String ngoId = snapshot.data.docs[index]["ngoId"];
+                        String veg = snapshot.data.docs[index]["veg"];
                         return CardItem(cookedBefore: cookedBefore,dishName: dishName,tId: tId,ngoName: ngoName,ngoUIN: ngoUIN,orderPlaced: orderPlaced,
-                            pickUpDay: pickUpDay,quantity: quantity,mealType: mealType,ngoId:ngoId
+                            pickUpDay: pickUpDay,quantity: quantity,mealType: mealType,ngoId:ngoId,veg: veg,
                         );
                       }
                   );
-                }),
+                }}),
           )
       ),
     );
@@ -104,40 +135,78 @@ class CardItem extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.fastfood_rounded, color: black),
                       SizedBox(
                         width: 20.0,
                       ),
                       Text(
-                        ngoName,
-                        style: kTitleStyle.copyWith(color: primaryColor),
+                        ngoUIN,
+                        style: kTitleStyle.copyWith(color: Colors.black,fontSize: 20.0,fontWeight: FontWeight.w500),
                       )
                     ],
                   ),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 10.0,),
                   Row(
                     children: [
-                      Icon(Icons.people_rounded, color: black),
+                      Image.asset("assets/images/servings.png",height: 20,),
                       SizedBox(
-                        width: 20.0,
+                        width: 5.0,
                       ),
                       Text(
-                        quantity.toString() + " servings",
-                        style: kTitleStyle.copyWith(color: primaryColor,fontSize: 15),
-                      )
+                        quantity.toString()+ " servings accepted",
+                        style: kTitleStyle.copyWith(color: Colors.black,fontSize: 15.0,fontWeight: FontWeight.w400),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 5.0,),
                   Row(
                     children: [
-                      Icon(Icons.set_meal, color: black),
+                      Image.asset("assets/images/mealName.png",height: 20,),
                       SizedBox(
-                        width: 20.0,
+                        width: 5.0,
+                      ),
+                      Text(
+                        dishName,
+                        style: kTitleStyle.copyWith(color: Colors.black,fontSize: 15.0,fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5.0,),
+                  Row(
+                    children: [
+                      Image.asset("assets/images/food_1.png",height: 20,),
+                      SizedBox(
+                        width: 5.0,
+                      ),
+                      Text(
+                        veg,
+                        style: kTitleStyle.copyWith(color: Colors.black,fontSize: 15.0,fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5.0,),
+                  Row(
+                    children: [
+                      Image.asset("assets/images/location.png",height: 20,),
+                      SizedBox(
+                        width: 5.0,
+                      ),
+                      Text(
+                        orderPlaced.toDate().toLocal().day.toString() +"-"+ orderPlaced.toDate().toLocal().month.toString() + "-" + orderPlaced.toDate().toLocal().year.toString(),
+                        style: kTitleStyle.copyWith(color: Colors.black,fontSize: 15.0,fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5.0,),
+                  Row(
+                    children: [
+                      Image.asset("assets/images/eat.png",height: 20,),
+                      SizedBox(
+                        width: 5.0,
                       ),
                       Text(
                         mealType,
-                        style: kTitleStyle.copyWith(color: primaryColor,fontSize: 15),
-                      )
+                        style: kTitleStyle.copyWith(color: Colors.black,fontSize: 15.0,fontWeight: FontWeight.w400),
+                      ),
                     ],
                   ),
                   SizedBox(height: 20.0),

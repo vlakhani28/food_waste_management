@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_waste_management/providers/NGO/NGOLoginProvider.dart';
 import 'package:food_waste_management/providers/Restaurant/RestaurantLoginProvider.dart';
 import 'package:food_waste_management/screens/Restaurant/RestaurantHome.dart';
@@ -248,15 +249,7 @@ class CreateCard extends StatelessWidget {
                         primary: primaryColor,
                         padding: EdgeInsets.all(10.0)),
                     onPressed: (){
-                      user.addOnGoing(DateTime.now(), "dishname", id, quantity, veg, 0, "withContainer", pickUpDay, mealType, name, uin,ngoId,user.userModel.id);
-                      user1.addOnGoing(DateTime.now(), "dishname", id, quantity, veg, 0, "withContainer", pickUpDay, mealType, user.userModel.mobileNumber,user.userModel.name,user.userModel.id,ngoId);
-                      user1.removePost(postId, ngoId);
-                      return Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => RestaurantHome(),
-                        ),
-                      );
+                      showDialog(context: context, builder: (BuildContext context) => _buildPopUp(context),);
                     }
                 ),
               ),
@@ -265,5 +258,146 @@ class CreateCard extends StatelessWidget {
         ),
     );
   }
+
+  Widget _buildPopUp(BuildContext context) {
+    TextEditingController _name = TextEditingController();
+    TextEditingController _cookedBefore = TextEditingController();
+    var _withContainer;
+    final user = Provider.of<RestaurantProvider>(context);
+    final user1 = Provider.of<NGOProvider>(context);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        AlertDialog(
+          contentPadding: EdgeInsets.all(25.0),
+          buttonPadding: EdgeInsets.symmetric(horizontal:35.0),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Dish Name', style: kLabelStyle.copyWith(fontSize: 18.0)),
+              SizedBox(height: 10.0),
+              Container(
+                width: 800,
+                decoration: kBoxDecorationStyle,
+                child: TextFormField(
+                  controller: _name,
+                  keyboardType: TextInputType.name,
+                  style: kTextFieldTextStyle.copyWith(
+                      color: Colors.black),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Dal and Rice",
+                    hintStyle: kPlaceHolderStyle,
+                    prefixIcon: Icon(
+                      Icons.food_bank_rounded,
+                      color: labelColor,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                'Cooked Before (Hours)',
+                style: kLabelStyle.copyWith(fontSize: 18.0),
+              ),
+              SizedBox(height: 10.0),
+              Container(
+                decoration: kBoxDecorationStyle,
+                child: TextFormField(
+                  controller: _cookedBefore,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  keyboardType: TextInputType.phone,
+                  style: kTextFieldTextStyle.copyWith(
+                      color: Colors.black),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Cooked Before",
+                    hintStyle: kPlaceHolderStyle,
+                    prefixIcon: Icon(
+                      Icons.access_alarm_rounded,
+                      color: labelColor,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                'With Container?',
+                style: kLabelStyle.copyWith(fontSize: 18.0),
+              ),
+              SizedBox(height: 10.0),
+              StatefulBuilder(builder:
+                  (BuildContext context,
+                  StateSetter setState) {
+                return Container(
+                    decoration: kBoxDecorationStyle,
+                    child: DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Enter your choice",
+                        hintStyle: kPlaceHolderStyle,
+                        prefixIcon: Icon(
+                          Icons.check_box_outline_blank_rounded,
+                          color: labelColor,
+                        ),
+                      ),
+                      value: _withContainer,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          _withContainer = newValue;
+                        });
+                      },
+                      items: ["Yes", "No"]
+                          .map((label) => DropdownMenuItem(
+                        child: Text(label.toString()),
+                        value: label,
+                      ))
+                          .toList(),
+                    )
+                );
+              }),
+            ],
+          ),
+          actions: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedButton(
+                    child: Text(
+                      'OKAY',
+                      style: kTitleStyle,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        primary: primaryColor,
+                        padding: EdgeInsets.all(10.0)),
+                    onPressed: () {
+                      user.addOnGoing(DateTime.now(), _name.text, id, quantity, veg, int.parse(_cookedBefore.text), _withContainer, pickUpDay, mealType, name, uin,ngoId,user.userModel.id);
+                      user1.addOnGoing(DateTime.now(), _name.text, id, quantity, veg, int.parse(_cookedBefore.text), _withContainer, pickUpDay, mealType, user.userModel.mobileNumber,user.userModel.name,user.userModel.id,ngoId);
+                      user1.removePost(postId, ngoId);
+                      return Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => RestaurantHome(),
+                        ),
+                      );
+                    }),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
 }
+
+
+
 
