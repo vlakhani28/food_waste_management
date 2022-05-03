@@ -6,7 +6,7 @@ import 'package:food_waste_management/screens/Restaurant/DailyData.dart';
 import 'package:food_waste_management/screens/Restaurant/RestaurantHome.dart';
 import 'package:food_waste_management/utilities/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'BuildChart.dart';
 import 'data.dart';
 
 class AnalyticsScreen extends StatefulWidget {
@@ -130,54 +130,33 @@ class _AnalyticsScreen extends State<AnalyticsScreen> {
                   else {
                     return Scaffold(
                         backgroundColor: Colors.white,
-                        body:  Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Prepare food : '+prepare+' kgs today', style: kTitleStyle.copyWith(color: primaryColor)),
-                              SizedBox(height: 40,),
-                              Text('Food Predicted (last 10 days)', style: kTitleStyle.copyWith(color: primaryColor)),
-                              SizedBox(height: 20,),
-                              Image(
-                                image: AssetImage('assets/images/food_prepared'+filePath+'.png'),
-                              ),
-                              SizedBox(height: 40,),
-                              Text('Food Left (last 10 days)', style: kTitleStyle.copyWith(color: primaryColor)),
-                              SizedBox(height: 20,),
-                              Image(
-                                image: AssetImage('assets/images/food_left'+filePath+'.png'),
-                              ),
-                            ],
-                          ),
-                        )
+                        body: BuildChart(),
+                        // body:  Padding(
+                        //   padding: EdgeInsets.all(8),
+                        //   child: Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.center,
+                        //     children: [
+                        //       Text('Prepare food : '+prepare+' kgs today', style: kTitleStyle.copyWith(color: primaryColor)),
+                        //       SizedBox(height: 40,),
+                        //       Text('Food Predicted (last 10 days)', style: kTitleStyle.copyWith(color: primaryColor)),
+                        //       SizedBox(height: 20,),
+                        //       Image(
+                        //         image: AssetImage('assets/images/food_prepared'+filePath+'.png'),
+                        //       ),
+                        //       SizedBox(height: 40,),
+                        //       Text('Food Left (last 10 days)', style: kTitleStyle.copyWith(color: primaryColor)),
+                        //       SizedBox(height: 20,),
+                        //       Image(
+                        //         image: AssetImage('assets/images/food_left'+filePath+'.png'),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // )
                   );
                   }
                 }),
           )
       ),
-    );
-  }
-}
-
-class CustomBarChart extends StatelessWidget {
-  const CustomBarChart({Key key, @required this.data}) : super(key: key);
-
-  final List<Data> data;
-  @override
-  Widget build(BuildContext context) {
-    List<charts.Series<Data, String>> series = [
-      charts.Series(
-        id:'food_prepared',
-        data: data,
-        domainFn: (series, _) => series.date,
-        measureFn:(series, _) => int.parse(series.food_prepared),
-        colorFn: (series, _) => series.barColor,
-      )
-    ];
-    return charts.BarChart(
-          series,
-          animate: true,
     );
   }
 }
