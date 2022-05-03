@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_waste_management/screens/Restaurant/LoginScreenRestaurant.dart';
 import 'package:food_waste_management/utilities/constants.dart';
-
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class ResetPasswordScreen extends StatefulWidget {
   final String appBarTitle;
   ResetPasswordScreen(this.appBarTitle);
@@ -34,6 +35,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             primary: primaryColor,
             padding: EdgeInsets.all(10.0)),
         onPressed: () async {
+          await FirebaseAuth.instance.sendPasswordResetEmail(email: _email.text);
           Navigator.pop(context);
         },
       ),
