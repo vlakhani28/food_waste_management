@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:food_waste_management/providers/Restaurant/RestaurantLoginProvider.dart';
-import 'package:food_waste_management/screens/Restaurant/LoginScreenRestaurant.dart';
 import 'package:food_waste_management/utilities/constants.dart';
-import 'package:food_waste_management/widgets/Loading.dart';
+import 'package:uuid/uuid.dart';
 
 import '../LoginScreen.dart';
+import 'ExtraData.dart';
 
 class RegisterScreenRestaurant extends StatefulWidget {
   @override
@@ -25,9 +25,10 @@ class _RegisterScreenStateRestaurant extends State<RegisterScreenRestaurant> {
   TextEditingController _confirmPassword = TextEditingController();
   TextEditingController _address = TextEditingController();
   TextEditingController _mobileNumber = TextEditingController();
-
   Widget _buildRegisterBtn(BuildContext context) {
     final user = Provider.of<RestaurantProvider>(context);
+    var uuid = Uuid();
+    var id = uuid.v4();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.0),
       width: double.infinity,
@@ -51,13 +52,14 @@ class _RegisterScreenStateRestaurant extends State<RegisterScreenRestaurant> {
                     _confirmPassword.text,
                     _address.text,
                     _mobileNumber.text,
+                    "No",
                     context)) {
                   return null;
                 } else {
                   return Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => LoginScreen(),
+                      builder: (_) => ExtraData(),
                     ),
                   );
                 }
@@ -299,6 +301,7 @@ class _RegisterScreenStateRestaurant extends State<RegisterScreenRestaurant> {
                                   ),
                                 ),
                               ),
+                              SizedBox(height: 15.0),
                               SizedBox(height: 15.0),
                               _buildRegisterBtn(context),
                               _buildSignupBtn()

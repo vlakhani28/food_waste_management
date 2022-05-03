@@ -278,7 +278,7 @@ class CardItem extends StatelessWidget {
                             primary: primaryColor,
                             padding: EdgeInsets.all(10.0)),
                         onPressed: () async {
-                          const url = 'tel:7977083785';
+                          var url = 'tel:'+mobileNumber;
                           if (await canLaunch(url)) {
                             await launch(url);
                           } else {

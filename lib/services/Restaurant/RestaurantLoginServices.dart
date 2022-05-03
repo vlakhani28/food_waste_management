@@ -10,6 +10,9 @@ class UserServices {
   String postsCollection = "posts";
   String historyCollection = "history";
   String ongoingCollection = "onGoing";
+  String analysisDataCollection ="analysisData";
+  String analysisDataDaily ="analysisDataDaily";
+  String results = "results";
   createUser(Map<String, dynamic> data) async {
     try {
       await _firestore.collection(collection).doc(data["id"]).set(data);
@@ -37,6 +40,48 @@ class UserServices {
           .doc(data['id'])
           .set(data);
       print('Post Added');
+    } catch (e) {
+      print('ERROR: ${e.toString()}');
+    }
+  }
+  void addAnalData(Map<String, dynamic> data, String id) async {
+    try {
+      await _firestore
+          .collection(collection)
+          .doc(id)
+          .collection(analysisDataCollection)
+          .doc(data['id'])
+          .set(data);
+      print('Analysis Added');
+    } catch (e) {
+      print('ERROR: ${e.toString()}');
+    }
+  }
+
+  void addOutputData(Map<String, dynamic> data, String id) async {
+    try {
+      await _firestore
+          .collection(collection)
+          .doc(id)
+          .collection(results)
+          .doc(data['id'])
+          .set(data);
+      print('Result Added');
+    } catch (e) {
+      print('ERROR: ${e.toString()}');
+    }
+  }
+
+
+  void addAnalDataDynamic(Map<String, dynamic> data, String id) async {
+    try {
+      await _firestore
+          .collection(collection)
+          .doc(id)
+          .collection(analysisDataDaily)
+          .doc(data['id'])
+          .set(data);
+      print('Daily Data Added');
     } catch (e) {
       print('ERROR: ${e.toString()}');
     }

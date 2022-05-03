@@ -51,7 +51,7 @@ class RestaurantProvider with ChangeNotifier {
   }
 
   Future<bool> signUp(String name, String email, String password,
-      String address, String mobileNumber, BuildContext context) async {
+      String address, String mobileNumber, String analytics, BuildContext context) async {
     try {
       _status = Status.Authenticating;
       notifyListeners();
@@ -64,8 +64,13 @@ class RestaurantProvider with ChangeNotifier {
           'name': name,
           'email': email,
           'address': address,
-          'mobileNumber': mobileNumber
+          'mobileNumber': mobileNumber,
+          'analytics':analytics,
         });
+       await _userServices.addOutputData({
+          'food_prepared': "a",
+          'id':user.user.uid
+        }, user.user.uid);
         notifyListeners();
       });
       return true;
@@ -179,6 +184,58 @@ class RestaurantProvider with ChangeNotifier {
         'pickUpDay': pickUpDay,
         'mealType': mealType,
         'isDone': isDone,
+      }, userModel.id);
+      print('Add Post');
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+
+  Future<bool> addAnalData(int stars, String area, int hours,String type,int refill,String id) async {
+    try {
+      _userServices.addAnalData({
+        'stars': stars,
+        'area':area,
+        'working_hours':hours,
+        'food_type':type,
+        'refill_interval':refill,
+        'id':id
+      }, userModel.id);
+      print('Add Post');
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+  Future<bool> addOutput(String id) async {
+    try {
+      _userServices.addOutputData({
+        'food_prepared': "a",
+        'id':id
+      }, userModel.id);
+      print('Add Post');
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+  Future<bool> addAnalDataDaily(double prepared, double leftover, int weekday, int holiday,double ordered,int number,String id) async {
+    try {
+      _userServices.addAnalDataDynamic({
+        'prepared': prepared,
+        'leftover':leftover,
+        'weekday':weekday,
+        'holiday':holiday,
+        'ordered':ordered,
+        'number':number,
+        'id':id
       }, userModel.id);
       print('Add Post');
       notifyListeners();

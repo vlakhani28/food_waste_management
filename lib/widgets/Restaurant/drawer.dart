@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_waste_management/screens/LoginScreen.dart';
+import 'package:food_waste_management/screens/Restaurant/AnalyticsScreen.dart';
 import 'package:food_waste_management/widgets/Restaurant/CurrentOrders.dart';
 import 'package:provider/provider.dart';
 import 'package:food_waste_management/providers/Restaurant/RestaurantLoginProvider.dart';
@@ -74,6 +75,22 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   context,
                   MaterialPageRoute(
                     builder: (_) => CurrentOrders(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.auto_graph_rounded,
+                color: primaryColor,
+              ),
+              title: Text('Analytics',
+                  style: kTitleStyle.copyWith(color: primaryColor)),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AnalyticsScreen(),
                   ),
                 );
               },

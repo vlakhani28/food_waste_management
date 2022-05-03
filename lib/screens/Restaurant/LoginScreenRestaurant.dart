@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:food_waste_management/screens/Restaurant/RegisterScreenRestaurant.dart';
 import 'package:provider/provider.dart';
 import 'package:food_waste_management/providers/Restaurant/RestaurantLoginProvider.dart';
-import 'package:food_waste_management/screens/RegisterScreen.dart';
 import 'package:food_waste_management/utilities/constants.dart';
 import 'package:food_waste_management/widgets/Loading.dart';
 import 'package:food_waste_management/screens/ResetPasswordScreen.dart';
@@ -82,7 +82,7 @@ class _LoginScreenRestaurantState extends State<LoginScreenRestaurant> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => RegisterScreen(),
+            builder: (_) => RegisterScreenRestaurant(),
           ),
         ),
       },
