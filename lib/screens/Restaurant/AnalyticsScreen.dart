@@ -7,7 +7,6 @@ import 'package:food_waste_management/screens/Restaurant/RestaurantHome.dart';
 import 'package:food_waste_management/utilities/constants.dart';
 import 'package:provider/provider.dart';
 import 'BuildChart.dart';
-import 'data.dart';
 
 class AnalyticsScreen extends StatefulWidget {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;

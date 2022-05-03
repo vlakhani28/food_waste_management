@@ -39,7 +39,7 @@ class _BuildChartState extends State<BuildChart> {
   Widget _buildBody(BuildContext context) {
     final user = Provider.of<RestaurantProvider>(context);
     return StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-      stream: FirebaseFirestore.instance.collection('restaurant/'+user.user.uid+'/results').orderBy('date').snapshots(),
+      stream: FirebaseFirestore.instance.collection('restaurant/'+user.user.uid+'/results').orderBy('date').limitToLast(6).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return LinearProgressIndicator();
@@ -62,8 +62,9 @@ class _BuildChartState extends State<BuildChart> {
             children: <Widget>[
               Text('Prepare food : '+mydata.last.food_prepared+' kgs today', style: kTitleStyle.copyWith(color: primaryColor)),
               SizedBox(
-                height: 10.0,
+                height: 40.0,
               ),
+              Text('Food Predicted (last 5 days)', style: kTitleStyle.copyWith(color: primaryColor)),
               Container(
                 height: MediaQuery.of(context).size.height *0.6 ,
                 child: Expanded(
