@@ -8,20 +8,26 @@ The idea is to develop a two-side application where NGOs and Restaurants can com
 
 ## Tech Stack
 
-~ Flutter
-~ Firebase
-~ Node JS
+~ Flutter <br />
+~ Firebase <br />
+~ Node JS <br />
 
 ## Features
 
-~ Available for Android and iOS Platforms
-~ Regular Updates
-~ Authentication and Verification of users.
-~ Authentication and Verification of NGO.
-~ Two applications modules one for Donor and the other for NGO
-~ First ever project for Mumbai locality.
-~ Automatically removal of food after 6 hours
-~ Detailed description of how to manage waste food with statistical analysis.
+~ Available for Android and iOS Platforms <br />
+~ Regular Updates <br />
+~ Authentication and Verification of users.<br />
+~ Authentication and Verification of NGO.<br />
+~ Two applications modules one for Donor and the other for NGO.<br />
+~ First ever project for Mumbai locality.<br />
+~ Automatically removal of food after 6 hours<br />
+~ Detailed description of how to manage waste food with statistical analysis.<br />
+
+## Installation
+
+~ Make sure to download Flutter and Dart SDK <br />
+~ git clone the project<br />
+~ Open with your fav code editor (Android Studion or VSCode)
 
 ## Project Demo Link: 
 https://drive.google.com/file/d/1VAkYe3Umda9CT9IAmAv0yR5nbnNB76Ge/view?usp=sharing
