@@ -14,14 +14,14 @@ The idea is to develop a two-side application where NGOs and Restaurants can com
 
 ## Features
 
-● Available for Android and iOS Platforms
-● Regular Updates
-● Authentication and Verification of users.
-● Authentication and Verification of NGO.
-● Two applications modules one for Donor and the other for NGO
-● First ever project for Mumbai locality.
-● Automatically removal of food after 6 hours
-● Detailed description of how to manage waste food with statistical analysis.
+~ Available for Android and iOS Platforms
+~ Regular Updates
+~ Authentication and Verification of users.
+~ Authentication and Verification of NGO.
+~ Two applications modules one for Donor and the other for NGO
+~ First ever project for Mumbai locality.
+~ Automatically removal of food after 6 hours
+~ Detailed description of how to manage waste food with statistical analysis.
 
 ## Project Demo Link: 
 https://drive.google.com/file/d/1VAkYe3Umda9CT9IAmAv0yR5nbnNB76Ge/view?usp=sharing
